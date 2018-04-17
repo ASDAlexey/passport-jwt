@@ -18,19 +18,14 @@ module.exports.getUserByEmail = function (email, cb) {
 };
 
 module.exports.createUser = function (newUser, cb) {
-  bcrypt.getSalt(10, function (err, salt) {
-    bcrypt.hash(newUser.password, salt, function (err, hash) {
-      if (err) throw err;
-      newUser.password = hash;
-      newUser.save(cb);
-    });
-  })
+  const salt = bcrypt.genSaltSync(10);
+  newUser.password = bcrypt.hashSync(newUser.password.toString(), salt);
+  newUser.save(cb);
 };
 
 module.exports.comparePasswords = function (myPassword, hash, cb) {
   bcrypt.compare(myPassword, hash, function (err, isMatch) {
     if (err) throw err;
     cb(null, isMatch);
-
   })
 };

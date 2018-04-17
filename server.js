@@ -8,7 +8,7 @@ const config = require('./config/database');
 const port = process.env.PORT || 3000;
 
 const app = express();
-mongoose.connect(config.db, { useMongoClient: true });
+mongoose.connect(config.db);
 mongoose.Promise = global.Promise;
 require('./config/passport')(passport);
 
